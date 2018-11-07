@@ -5,6 +5,7 @@ from app import config
 from flask import Flask, request
 
 app = Flask(__name__)
+
 ok = 'ok'
 bad_request = 'bad'
 
@@ -31,6 +32,7 @@ def post():
         response = result if result is not None else response
 
     return response
+
 
 if __name__ == '__main__':
     app.run(port=config.port)
