@@ -5,6 +5,8 @@ from app import config
 from flask import Flask, request
 
 app = Flask(__name__)
+ok = 'ok'
+bad_request = 'bad'
 
 path = os.path.abspath(os.path.join(__file__, '../..', 'handlers'))
 files = [f for f in os.listdir(path) if f.endswith('.py')]
@@ -19,14 +21,16 @@ def get():
 
 @app.route('/', methods=['POST'])
 def post():
+    response = ok
     data = request.json
+
     confirm = handlers['confirmation'].handle(data)
     if confirm == config.confirmation_token:
         data_type = data['type']
-        handlers[data_type].handle(data)
+        result = handlers[data_type].handle(data)
+        response = result if result is not None else response
 
-    return 'ok'
-
+    return response
 
 if __name__ == '__main__':
     app.run(port=config.port)
