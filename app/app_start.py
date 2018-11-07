@@ -1,15 +1,15 @@
+import os
+import importlib
+from repository.handlers import handlers
 from app import config
-from handlers import messages
 from flask import Flask, request
 
 app = Flask(__name__)
 
-bad_request = 'Bad request'
-actions = {
-    'confirmation': lambda d, t:
-        config.confirmation_token if d['group_id'] == int(config.get_param('group_id', 'BOT')) else bad_request,
-    'message_new': lambda d, t: messages.create_answer(d, t)
-}
+path = os.path.abspath(os.path.join(__file__, '../..', 'handlers'))
+files = [f for f in os.listdir(path) if f.endswith('.py')]
+for f in files:
+    importlib.import_module('handlers.' + f[0:-3])
 
 
 @app.route('/')
@@ -20,11 +20,12 @@ def get():
 @app.route('/', methods=['POST'])
 def post():
     data = request.json
-    if 'type' not in data.keys():
-        return bad_request
+    confirm = handlers['confirmation'].handle(data)
+    if confirm == config.confirmation_token:
+        data_type = data['type']
+        handlers[data_type].handle(data)
 
-    data_type = data['type']
-    return actions[data_type](data, config.token)
+    return 'ok'
 
 
 if __name__ == '__main__':
