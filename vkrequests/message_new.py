@@ -2,12 +2,13 @@ import os
 import importlib
 from app import vkapi
 from app import config
-from repository import responses, handlers
+from vkresponses import handlers
+from vkrequests import handlers
 
-path = os.path.abspath(os.path.join(__file__, '../..', 'responses'))
+path = os.path.abspath(os.path.join(__file__, '../..', 'vkresponses'))
 files = [f for f in os.listdir(path) if f.endswith('.py')]
 for f in files:
-    importlib.import_module('responses.' + f[0:-3])
+    importlib.import_module('vkresponses.' + f[0:-3])
 
 
 def is_directed(text):
@@ -15,7 +16,7 @@ def is_directed(text):
 
 
 def get_answers(text):
-    return [response.process() for response in responses.responses if set(text.split()).intersection(response.keys)]
+    return [response.process() for response in handlers.responses if set(text.split()).intersection(response.keys)]
 
 
 def handle(data):
@@ -29,5 +30,5 @@ def handle(data):
             vkapi.send_peer(peer_id, config.token, message, attachment)
 
 
-handler = handlers.Handler('message_new')
-handler.handle = handle
+handler = handlers.Request('message_new')
+handler.request = handle

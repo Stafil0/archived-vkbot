@@ -1,4 +1,4 @@
-from repository import responses
+from vkresponses import handlers
 
 
 def hello():
@@ -6,7 +6,7 @@ def hello():
     return message, ''
 
 
-response = responses.Response()
+response = handlers.Response()
 response.keys = ['привет', 'hello', 'дратути', 'здравствуй', 'здравствуйте', 'дороу']
 response.description = 'Приветствие'
 response.process = hello

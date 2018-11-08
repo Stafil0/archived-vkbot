@@ -1,5 +1,5 @@
 from app import config
-from repository import handlers
+from vkrequests import handlers
 
 
 def handle(data):
@@ -10,5 +10,5 @@ def handle(data):
         else 'bad'
 
 
-handler = handlers.Handler('confirmation')
-handler.handle = handle
+handler = handlers.Request('confirmation')
+handler.request = handle

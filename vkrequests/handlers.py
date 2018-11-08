@@ -1,11 +1,11 @@
-handlers = {}
+requests = {}
 
 
-class Handler:
+class Request:
     def __init__(self, name):
         self.name = name
         self.description = ''
-        handlers[name] = self
+        requests[name] = self
 
-    def handle(self, data):
+    def request(self, data):
         pass
