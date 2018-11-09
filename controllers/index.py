@@ -1,15 +1,14 @@
 from vkrequests.handlers import requests
-from app import config
-from flask import Flask, request
+from service import config
+from service import app
+from flask import request
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = config.get_param('connection_string', 'DATABASE')
 
 ok = 'ok'
 bad_request = 'bad'
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def get():
     return 'Hello, world!'
 
@@ -26,7 +25,3 @@ def post():
         response = result if result is not None else response
 
     return response
-
-
-if __name__ == '__main__':
-    app.run(debug=True, port=config.port)

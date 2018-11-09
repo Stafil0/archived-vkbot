@@ -1,5 +1,5 @@
 import vk
-from app import config
+from service import config
 
 version = float(config.get_param('api_version', 'BOT'))
 session = vk.Session()

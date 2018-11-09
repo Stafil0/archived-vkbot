@@ -1,4 +1,4 @@
-from app import config
+from service import config
 from vkrequests import handlers
 
 

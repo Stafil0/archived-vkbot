@@ -1,7 +1,6 @@
 import os
 import importlib
-from app import vkapi
-from app import config
+from service import vkapi, config
 from vkresponses import handlers
 from vkrequests import handlers
 
