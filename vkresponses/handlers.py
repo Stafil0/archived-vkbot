@@ -16,5 +16,5 @@ class Response:
         for k in key:
             self.__keys.append(k.lower())
 
-    def process(self):
+    def response(self):
         pass

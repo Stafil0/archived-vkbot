@@ -3,7 +3,7 @@ from vkresponses import handlers
 
 def info():
     message = ''
-    for c in response.responses:
+    for c in handlers.responses:
         message += c.keys[0] + ' - ' + c.description + '\n'
     return message, ''
 
@@ -11,4 +11,4 @@ def info():
 response = handlers.Response()
 response.keys = ['помощь', 'помоги', 'help']
 response.description = 'Показать список команд'
-response.process = info
+response.response = info
