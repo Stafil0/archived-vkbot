@@ -1,6 +1,6 @@
 import os
 import importlib
-from service import vkapi, config
+from service import vkapi, config, cache
 from vkresponses.handlers import responses
 from vkrequests.handlers import Request
 from helpers.strings import damerau_levenshtein_distance
@@ -27,7 +27,8 @@ def handle(data):
     data_object = data['object']
     peer_id = data_object['peer_id']
 
-    if is_directed(data_object):
+    if is_directed(data_object) and not cache.cached(data):
+        cache.add(data)
         text = data_object['text'].lower()
         answers = get_answers(text)
         for message, attachment in answers:
